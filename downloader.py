@@ -6,6 +6,12 @@ from pathlib import Path
 from typing import Optional, Dict, Any
 import yt_dlp
 
+try:
+    import imageio_ffmpeg
+    FFMPEG_EXE = imageio_ffmpeg.get_ffmpeg_exe()
+except Exception:
+    FFMPEG_EXE = None
+
 from config import DOWNLOAD_DIR, MAX_FILE_SIZE_BYTES, MAX_FILE_SIZE_MB
 
 URL_REGEX = re.compile(
@@ -50,6 +56,8 @@ def _download_video_sync(url: str) -> Dict[str, Any]:
         'format': 'best[ext=mp4][filesize<?50M]/best[filesize<?50M]/bestvideo[ext=mp4]+bestaudio[ext=m4a]/best',
         'max_filesize': MAX_FILE_SIZE_BYTES,
     }
+    if FFMPEG_EXE:
+        ydl_opts['ffmpeg_location'] = FFMPEG_EXE
 
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         info = ydl.extract_info(url, download=True)
@@ -90,6 +98,8 @@ def _download_audio_sync(url: str) -> Dict[str, Any]:
         'format': 'bestaudio[filesize<?50M]/best[filesize<?50M]/best',
         'max_filesize': MAX_FILE_SIZE_BYTES,
     }
+    if FFMPEG_EXE:
+        ydl_opts['ffmpeg_location'] = FFMPEG_EXE
 
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         info = ydl.extract_info(url, download=True)
