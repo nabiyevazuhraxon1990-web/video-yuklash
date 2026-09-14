@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Muhit va sozlamalar
+.env
+venv/
+env/
+ENV/
+
+# Yuklangan vaqtinchalik fayllar
+downloads/
+*.mp4
+*.mkv
+*.webm
+*.mp3
+*.m4a
+
+# IDE sozlamalari
+.vscode/
+.idea/
+.DS_Store
