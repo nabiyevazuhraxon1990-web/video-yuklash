@@ -6,9 +6,14 @@ from pathlib import Path
 from typing import Optional, Dict, Any
 import yt_dlp
 
+import shutil
+
 try:
-    import imageio_ffmpeg
-    FFMPEG_EXE = imageio_ffmpeg.get_ffmpeg_exe()
+    if shutil.which("ffmpeg"):
+        FFMPEG_EXE = shutil.which("ffmpeg")
+    else:
+        import imageio_ffmpeg
+        FFMPEG_EXE = imageio_ffmpeg.get_ffmpeg_exe()
 except Exception:
     FFMPEG_EXE = None
 
